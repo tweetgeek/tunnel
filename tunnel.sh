@@ -10,13 +10,18 @@ fi
 
 source "$src"
 
+if [ ! -f ~/.tunnel ]
+then
+  touch ~/.tunnel
+fi
+
 get-list() {
-  cat ~/.tunnels | grep -E "^ssh\s" | sed -e 's/\s*$//'
+  cat ~/.tunnel | grep -E "^ssh\s" | sed -e 's/\s*$//'
 }
 
 tunnel() {
     hist=$(get-list | tr '\n' '|')
-    res=$(listbox -t "Select tunnel:" -o "$hist" | tee /dev/tty | tail -n 1)
+    res=$(listbox -t "Choose a tunnel:" -o "$hist" -a '→' | tee /dev/tty | tail -n 1)
     echo ""
     eval "$res"
 }
